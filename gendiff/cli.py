@@ -1,5 +1,5 @@
 import argparse
-from gendiff.parse import give_data
+
 
 
 def parse_args():

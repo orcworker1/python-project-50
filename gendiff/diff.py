@@ -13,7 +13,9 @@ def build_diff(data1, data2):
         elif data1[key] == data2[key]:
             diff.append({'key': key, 'type': 'unchanged', 'value': data1[key]})
         else:
-            diff.append({'key': key, 'type': 'changed', 'old_value': data1[key], 'new_value': data2[key]})
+            diff.append({'key': key, 'type': 'changed', 'old_value':
+                          data1[key], 
+                         'new_value': data2[key]})
     
     return diff
 
@@ -31,6 +33,7 @@ def format_diff(diff):
         else:
             lines.append(f"    {item['key']}: {item['value']}")
     return '{\n' + '\n'.join(lines) + '\n}'
+
 
 def generate_diff(file_path1, file_path2):
     data1 = parse_file(file_path1)

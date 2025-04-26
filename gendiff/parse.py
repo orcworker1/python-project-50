@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def parse_file(file):
-    with open(file,'r') as f:
+    with open(file, 'r') as f:
         return json.load(f)
     
 

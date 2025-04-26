@@ -9,8 +9,7 @@ def generate_diff(file1_path, file2_path):
 
 def main():
     args = parse_args()
-    diff = generate_diff(args.first_file, args.second_file)
-    print(diff)
+    print(generate_diff(args.first_file, args.second_file))
     
 
 

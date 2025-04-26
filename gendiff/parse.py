@@ -8,8 +8,8 @@ def parse_file(file):
     
 
 def give_data(f_path):
-    path = path(f_path)
-    if path.endswitch('.json'):
+    path = Path(f_path)
+    if str(path).endswith('.json'):
         return parse_file(path)
     
 

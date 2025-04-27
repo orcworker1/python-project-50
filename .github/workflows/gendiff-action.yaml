@@ -35,7 +35,7 @@ jobs:
         with:
           args: >
             -Dsonar.organization=my-org-123
-            -Dsonar.projectKey=my-org-123_python-project-50
+            -Dsonar.projectKey=d5fdefcba8ad0904b5144a4f4f317a770a448dd9
             -Dsonar.projectName=python-project-50
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.sources=gendiff

@@ -1,35 +1,45 @@
-name: Python CI
+name: Python CI with SonarCloud
 
 on:
-  - push
-  - pull_request
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
-  build:
+  test-and-analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+        with:
+          fetch-depth: 0  #
+
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-        
+
       - name: Install dependencies
         run: |
-          pip install uv
-          make install
-      - name: Run linter and pytest
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          pip install -e .
+
+      - name: Run tests with coverage
         run: |
-          make lint
-      - name: Run test coverage
-        run: |
-          make test
-      - name: SonarQubeScan
-        uses: SonarSource/sonarqube-scan-action@v5
+          pytest --cov=gendiff --cov-report=xml tests/
+
+      - name: SonarCloud Scan
+        if: github.event_name == 'push'  
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=hexlet-boilerplates_python-package
-            -Dsonar.organization=hexlet-boilerplates
+            -Dsonar.organization=orcworker1
+            -Dsonar.projectKey=orcworker1_python-project-50
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=gendiff
+            -Dsonar.tests=tests
+            -Dsonar.host.url=https://sonarcloud.io

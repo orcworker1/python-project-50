@@ -43,4 +43,4 @@ jobs:
             -Dsonar.sources=gendiff
             -Dsonar.tests=tests
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.analysis.ci=false  
+            -Dsonar.analysis.ci=true

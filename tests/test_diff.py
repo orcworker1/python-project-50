@@ -24,10 +24,10 @@ def test_flat_json_diff(data_1, data_2):
 
 def test_parse_file(data_1):
     assert generate_diff(data_1, data_1) == """{
-    host: hexlet.io
-    timeout: 50
-    proxy: 123.234.53.22
     follow: false
+    host: hexlet.io
+    proxy: 123.234.53.22
+    timeout: 50
 }"""
 
 

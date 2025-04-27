@@ -1,59 +1,44 @@
-name: Python CI
+name: CI с SonarCloud
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
-  build:
+  sonarcloud-scan:
+    name: Запуск тестов и SonarCloud анализа
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  
 
-      - name: Set up Python
+      - name: Установка Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.12'
 
-      - name: Install dependencies
+      - name: Установка зависимостей
         run: |
-          pip install uv
-          make install
-
-      - name: Run linter
-        run: |
-          make lint
-
-      - name: Run pytest
-        run: |
-         uv run pytest
-
-      - name: Install dependencies
-        run: |
+          python -m pip install --upgrade pip
           pip install pytest pytest-cov
           pip install -e .
-    
-      - name: Run tests with coverage
+
+      - name: Запуск тестов с покрытием
         run: |
           pytest --cov=gendiff --cov-report=xml tests/
-    
-          sonarcloud:
-            name: SonarCloud Scan
-            runs-on: ubuntu-latest
-            steps:
-              - uses: actions/checkout@v4
-                  with:
-                  fetch-depth: 0
-      - name: SonarCloud Scan
+
+      - name: Анализ SonarCloud
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=your-project-key
-            -Dsonar.organization=your-org
+            -Dsonar.projectKey=ваш_ключ_проекта
+            -Dsonar.organization=ваша_организация
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.sources=gendiff
             -Dsonar.tests=tests

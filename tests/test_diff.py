@@ -1,10 +1,12 @@
 import pytest
+
 from gendiff import generate_diff
 
 
 @pytest.fixture
 def data_1():
     return 'tests/fixture/file1.json'
+
 
 @pytest.fixture
 def data_2():
@@ -20,7 +22,8 @@ def test_flat_json_diff(data_1, data_2):
   + timeout: 20
   + verbose: true
 }"""
-    assert generate_diff(data_1,data_2) == expected
+    assert generate_diff(data_1, data_2) == expected
+
 
 def test_parse_file(data_1):
     assert generate_diff(data_1, data_1) == """{

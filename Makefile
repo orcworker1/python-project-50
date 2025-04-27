@@ -1,6 +1,9 @@
 install:
 	uv sync
 
+package:
+	uv tool install dist/*.whl
+
 run:
 	uv run hexlet-gendiff
 
@@ -12,3 +15,4 @@ lint:
 
 build:
 	uv build
+

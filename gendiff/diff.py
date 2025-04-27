@@ -4,7 +4,6 @@ from gendiff.parse import parse_file
 def build_diff(data1, data2):
     keys = sorted(set(data1.keys()) | set(data2.keys()))
     diff = []
-    
     for key in keys:
         if key not in data2:
             diff.append({'key': key, 'type': 'removed', 'value': data1[key]})

@@ -34,5 +34,5 @@ coverage.xml
 
 .DS_Store
 Thumbs.db
-
+.ruff_cache
 demo.cast

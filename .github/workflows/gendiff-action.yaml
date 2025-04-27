@@ -1,43 +1,35 @@
-name: SonarCloud Analysis
+name: Gendiff CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    types: [ opened, synchronize, reopened ]
+    branches:
+      - main
 
 jobs:
-  sonarcloud:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-cov
-          pip install -e .
+          pip install uv
+          make install
 
-      - name: Run tests with coverage
-        run: pytest --cov=gendiff --cov-report=xml tests/
+      - name: Run linter and pytest
+        run: |
+          make check
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v9.0.0
+        if: github.ref_name == 'main'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          args: >
-            -Dsonar.organization=my-org-123
-            -Dsonar.projectKey=my-org-123_python-project-50
-            -Dsonar.projectName=python-project-50
-            -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.sources=gendiff
-            -Dsonar.tests=tests
-            -Dsonar.host.url=https://sonarcloud.io
+          coverageCommand: make test-coverage
+          debug: true

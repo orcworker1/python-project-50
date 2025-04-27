@@ -1,35 +1,35 @@
-name: Gendiff CI
+name: Python CI
 
 on:
-  push:
-    branches:
-      - main
+  - push
+  - pull_request
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-
+          python-version: '3.13'
+        
       - name: Install dependencies
         run: |
           pip install uv
           make install
-
       - name: Run linter and pytest
         run: |
           make lint
-
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v9.0.0
-        if: github.ref_name == 'main'
+      - name: Run test coverage
+        run: |
+          make test
+      - name: SonarQubeScan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          coverageCommand: make test-coverage
-          debug: true
+          args: >
+            -Dsonar.projectKey=hexlet-boilerplates_python-package
+            -Dsonar.organization=hexlet-boilerplates
+            -Dsonar.python.coverage.reportPaths=coverage.xml

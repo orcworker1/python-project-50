@@ -1,6 +1,6 @@
 import pytest
+
 from gendiff.formatters.plain import format_plain
-from gendiff.formatters.json import format_json
 
 from gendiff import generate_diff
 

@@ -1,5 +1,4 @@
 from gendiff.parses import get_data
-from gendiff.formatters.stylish import format_stylish as stylish
 from gendiff.formatters import get_formatter
 
 

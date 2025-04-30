@@ -1,6 +1,6 @@
 def format_value(value, depth):
     if isinstance(value, bool):
-        return str(value).lower()  # Преобразуем True -> true, False -> false
+        return str(value).lower() 
     if isinstance(value, dict):
         lines = []
         for k, v in value.items():

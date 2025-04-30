@@ -8,6 +8,7 @@ def parse(content, format_name):
         elif format_name in ('yaml', 'yml'):
             return yaml.safe_load(content)
 
+
 def get_data(file_path):
     path = Path(file_path)
     with open(path) as f:

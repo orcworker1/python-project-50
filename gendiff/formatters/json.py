@@ -1,4 +1,4 @@
 import json
 
 def format_json(diff):
-    return json.dump(diff, indent=2, ensure_ascii=False)
+    return json.dumps(diff, indent=2)

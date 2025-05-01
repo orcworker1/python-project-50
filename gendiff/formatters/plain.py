@@ -9,23 +9,28 @@ def format_value(value):
         return f"'{value}'"
     return str(value)
 
+
 def format_plain(diff, parent_key=''):
     lines = []
     for key, node in diff.items():
         current_key = f"{parent_key}.{key}" if parent_key else key
         
         if node['type'] == 'nested':
-            lines.append(format_plain(node['children'], current_key))
+            lines.append(format_plain(node['children'], 
+                                      current_key))
         elif node['type'] == 'added':
             value = format_value(node['value'])
-            lines.append(f"Property '{current_key}' was added with value: {value}")
+            lines.append(f"Property '{current_key}'"
+                         f" was added with value: {value}")
         elif node['type'] == 'removed':
-            lines.append(f"Property '{current_key}' was removed")
+            lines.append(f"Property '{current_key}'"
+                         f" was removed")
         elif node['type'] == 'changed':
             old_value = format_value(node['old'])
             new_value = format_value(node['new'])
             lines.append(
-                f"Property '{current_key}' was updated. From {old_value} to {new_value}"
+                f"Property '{current_key}' was updated."
+                f" From {old_value} to {new_value}"
             )
     
     return '\n'.join(lines)

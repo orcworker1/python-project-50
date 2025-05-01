@@ -1,24 +1,28 @@
 import pytest
 
+from gendiff import generate_diff
 from gendiff.formatters.plain import format_plain
 
-from gendiff import generate_diff
 
 @pytest.fixture
 def nested_json1():
     return 'tests/fixture/nested1.json'
 
+
 @pytest.fixture
 def nested_json2():
     return 'tests/fixture/nested2.json'
+
 
 @pytest.fixture
 def nested_yaml1():
     return 'tests/fixture/nested1.yaml'
 
+
 @pytest.fixture
 def data_1():
     return 'tests/fixture/file1.json'
+
 
 @pytest.fixture
 def data_2():
@@ -28,6 +32,7 @@ def data_2():
 @pytest.fixture
 def data_yaml_1():
     return 'tests/fixture/file1.yaml'
+
 
 @pytest.fixture
 def data_yaml_2():
@@ -43,8 +48,8 @@ def sample_diff():
                 'follow': {'type': 'added', 'value': False},
                 'setting2': {'type': 'removed', 'value': 200},
                 'setting3': {
-                    'type': 'changed', 
-                    'old': True, 
+                    'type': 'changed',
+                    'old': True,
                     'new': None
                 }
             }
@@ -144,17 +149,9 @@ def test_parse_file(data_1):
     timeout: 50
 }"""
 
+
 def test_plain_format(sample_diff):
     expected = """Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null"""
     assert format_plain(sample_diff) == expected
-
-
-
-
-
-
-
-
-

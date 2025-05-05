@@ -6,7 +6,8 @@ def format_value(value, depth):
     if isinstance(value, dict):
         lines = []
         for k, v in value.items():
-            lines.append(f"{'    ' * (depth + 1)}{k}: {format_value(v, depth + 1)}")
+            lines.append(f"{'    ' * (depth + 1)}{k}:"
+                         f" {format_value(v, depth + 1)}")
         return '{\n' + '\n'.join(lines) + '\n' + '    ' * depth + '}'
     return str(value)
 
@@ -36,4 +37,5 @@ def format_stylish(diff, depth=0):
             lines.append(f"{indent}    {key}: {value}")
     
     result = '\n'.join(lines)
-    return '{\n' + result + '\n' + '    ' * depth + '}' if depth else '{\n' + result + '\n}'
+    return '{\n' + result + '\n' + '    ' * depth + '}'\
+        if depth else '{\n' + result + '\n}'

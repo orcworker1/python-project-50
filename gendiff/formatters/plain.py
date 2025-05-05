@@ -22,13 +22,15 @@ def format_plain(diff, path=''):
             lines.append(format_plain(node['children'], current_path))
         elif node_type == 'added':
             value = format_value(node['value'])
-            lines.append(f"Property '{current_path}' was added with value: {value}")
+            lines.append(f"Property '{current_path}' was added with value:"
+                         f" {value}")
         elif node_type == 'removed':
             lines.append(f"Property '{current_path}' was removed")
         elif node_type == 'changed':
             old_value = format_value(node['old_value'])
             new_value = format_value(node['new_value'])
             lines.append(
-                f"Property '{current_path}' was updated. From {old_value} to {new_value}"
+                f"Property '{current_path}' was updated. From {old_value} "
+                f"to {new_value}"
             )
     return '\n'.join(lines)

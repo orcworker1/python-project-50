@@ -156,9 +156,12 @@ def test_plain_format():
             'key': 'common',
             'type': 'nested',
             'children': [
-                {'key': 'follow', 'type': 'added', 'value': False},
-                {'key': 'setting2', 'type': 'removed', 'value': 200},
-                {'key': 'setting3', 'type': 'changed', 'old_value': True, 'new_value': None}
+                {'key': 'follow', 'type': 'added',
+                 'value': False},
+                {'key': 'setting2', 'type': 'removed',
+                 'value': 200},
+                {'key': 'setting3', 'type': 'changed',
+                 'old_value': True, 'new_value': None}
             ]
         }
     ]

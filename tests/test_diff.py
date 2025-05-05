@@ -150,8 +150,19 @@ def test_parse_file(data_1):
 }"""
 
 
-def test_plain_format(sample_diff):
+def test_plain_format():
+    diff = [
+        {
+            'key': 'common',
+            'type': 'nested',
+            'children': [
+                {'key': 'follow', 'type': 'added', 'value': False},
+                {'key': 'setting2', 'type': 'removed', 'value': 200},
+                {'key': 'setting3', 'type': 'changed', 'old_value': True, 'new_value': None}
+            ]
+        }
+    ]
     expected = """Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null"""
-    assert format_plain(sample_diff) == expected
+    assert format_plain(diff) == expected

@@ -1,49 +1,39 @@
 def format_value(value, depth):
     if isinstance(value, bool):
-        return str(value).lower() 
+        return str(value).lower()
+    if value is None:
+        return 'null'
     if isinstance(value, dict):
         lines = []
         for k, v in value.items():
-            lines.append(f"{'    ' * (depth + 1)}{k}: "
-                         f"{format_value(v, depth + 1)}")
-        return ('{\n' + '\n'.join(lines) + '\n' + '    '
-                * depth + '}')
-    if value is None:
-        return 'null'
+            lines.append(f"{'    ' * (depth + 1)}{k}: {format_value(v, depth + 1)}")
+        return '{\n' + '\n'.join(lines) + '\n' + '    ' * depth + '}'
     return str(value)
 
 
 def format_stylish(diff, depth=0):
     lines = []
-
-    def value_formatter(v):
-        return format_value(v, depth + 1)
-    for key, node in diff.items():
+    for item in diff:
+        key = item['key']
         indent = '    ' * depth
-        if node['type'] == 'nested':
-            lines.append(
-                f"{indent}    {key}: {format_stylish(node['children'],
-                                                     depth + 1)}"
-            )
-        elif node['type'] == 'added':
-            lines.append(
-                f"{indent}  + {key}: {value_formatter(node['value'])}"
-            )
-        elif node['type'] == 'removed':
-            lines.append(
-                f"{indent}  - {key}: {value_formatter(node['value'])}"
-            )
-        elif node['type'] == 'changed':
-            lines.append(
-                f"{indent}  - {key}: {value_formatter(node['old'])}"
-            )
-            lines.append(
-                f"{indent}  + {key}: {value_formatter(node['new'])}"
-            )
+        
+        if item['type'] == 'nested':
+            value = format_stylish(item['children'], depth + 1)
+            lines.append(f"{indent}    {key}: {value}")
+        elif item['type'] == 'added':
+            value = format_value(item['value'], depth + 1)
+            lines.append(f"{indent}  + {key}: {value}")
+        elif item['type'] == 'removed':
+            value = format_value(item['value'], depth + 1)
+            lines.append(f"{indent}  - {key}: {value}")
+        elif item['type'] == 'changed':
+            old_value = format_value(item['old_value'], depth + 1)
+            new_value = format_value(item['new_value'], depth + 1)
+            lines.append(f"{indent}  - {key}: {old_value}")
+            lines.append(f"{indent}  + {key}: {new_value}")
         else:
-            lines.append(
-                f"{indent}    {key}: {value_formatter(node['value'])}"
-            )
+            value = format_value(item['value'], depth + 1)
+            lines.append(f"{indent}    {key}: {value}")
+    
     result = '\n'.join(lines)
-    closing_indent = '    ' * depth
-    return f'{{\n{result}\n{closing_indent}}}' if depth else f'{{\n{result}\n}}'
+    return '{\n' + result + '\n' + '    ' * depth + '}' if depth else '{\n' + result + '\n}'

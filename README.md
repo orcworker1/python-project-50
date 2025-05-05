@@ -31,7 +31,7 @@ make package</code></pre>
 
 <h2><a href="https://asciinema.org/a/R8jiJMntZMBIApKUvNQAnh2ec">Format stalysh(default)</a></h2>
 <h2><a href="https://asciinema.org/a/9f1vOKxdp00ndLmbQlDF7PGGn">Format plain</a></h2>
-<h2><a href="https://asciinema.org/a/KoRqN6nvIdkNcjMZcorm7E5Rm">Format json a prime number</a></h2>
+<h2><a href="https://asciinema.org/a/KoRqN6nvIdkNcjMZcorm7E5Rm">Format json</a></h2>
 </body>
 </html>
 

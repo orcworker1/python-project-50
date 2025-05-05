@@ -17,7 +17,7 @@
 
 <h2>How to install:</h2>
 <ul>
-    <li>Copy repository: <code><a href="mailto:https://github.com/orcworker1/python-project-50">git@github.com:orcworker1/python-project-49.git</a></code></li>
+    <li>Copy repository: <code><a href="mailto:https://github.com/orcworker1/python-project-50">git@github.com:orcworker1/python-project-50.git</a></code></li>
     <li>Install Make: <code>sudo apt install make</code></li>
        <li>Install UV: <code class="monospace">curl -LsSf https://astral.sh/uv/install.sh | sh</code></li>
     <li>Then run these commands:
